@@ -1,0 +1,1669 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_15d97dd1208c3309435503c9789b925a {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdn.jsdelivr.net/gh/python-visualization/folium@main/folium/templates/leaflet_heat.min.js"></script>
+</head>
+<body>
+    
+    
+<div style="position: fixed; bottom: 24px; left: 24px; z-index: 9999;
+  background: white; padding: 12px 14px; border:1px solid #999; border-radius:6px;
+  font: 12px/1.5 Arial; box-shadow: 0 1px 6px rgba(0,0,0,.3);">
+  <b>Escolas de EM — região</b><br>
+  <span style="color:#2e7d32;">&#9679;</span> Barra/Região&nbsp;
+  <span style="color:#1565c0;">&#9679;</span> Zona Sul/Botafogo&nbsp;
+  <span style="color:#757575;">&#9679;</span> Centro/Norte<br>
+  <span style="font-size:11px;color:#555;">Tamanho do círculo = inscritos EPGE 2024–2026</span><br>
+  <b>Prédios:</b> &#9733; EPGE Botafogo · IBMEC · PUC-Rio<br>
+  <b>Mancha laranja:</b> residência dos alunos EPGE que moram na Grande Barra
+</div>
+    
+<div style="position: fixed; top: 12px; left: 50%; transform: translateX(-50%);
+  z-index: 9999; background: #1F3864; color: white; padding: 8px 18px;
+  border-radius: 6px; font: bold 15px Arial; box-shadow:0 1px 6px rgba(0,0,0,.3);">
+  GeoMkt EPGE — Escolas de EM, Residência e Concorrência · Barra × Botafogo
+</div>
+    
+            <div class="folium-map" id="map_15d97dd1208c3309435503c9789b925a" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_15d97dd1208c3309435503c9789b925a = L.map(
+                "map_15d97dd1208c3309435503c9789b925a",
+                {
+                    center: [-22.985, -43.32],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 12,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+            L.control.scale().addTo(map_15d97dd1208c3309435503c9789b925a);
+
+            
+
+        
+    
+            var tile_layer_0ddd36993e8bd7d2c07866f807a0ac4b = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 20,
+  "maxNativeZoom": 20,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e",
+  "subdomains": "abcd",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_0ddd36993e8bd7d2c07866f807a0ac4b.addTo(map_15d97dd1208c3309435503c9789b925a);
+        
+    
+            var feature_group_e078d0170b997afdfe1576c8ce65a0c1 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var heat_map_da1feb2a1ce56ec29f6168c675d1d6d1 = L.heatLayer(
+                [[-22.9997404, -43.3659929, 641], [-23.0185151, -43.4634021, 157], [-22.9531726, -43.3715825, 47], [-22.9408899, -43.3422564, 36], [-22.9913592, -43.2675329, 64], [-22.9870911, -43.3049379, 13], [-22.9408899, -43.3422564, 10], [-22.9707911, -43.4968914, 6], [-22.9913592, -43.2675329, 3], [-22.9818187, -43.4578117, 9]],
+                {
+  "minOpacity": 0.35,
+  "maxZoom": 13,
+  "radius": 22,
+  "blur": 18,
+  "gradient": {
+  0.2: "#fee0b6",
+  0.5: "#fdae61",
+  0.8: "#e6550d",
+  1.0: "#a63603",
+},
+}
+            );
+        
+    
+            heat_map_da1feb2a1ce56ec29f6168c675d1d6d1.addTo(feature_group_e078d0170b997afdfe1576c8ce65a0c1);
+        
+    
+            feature_group_e078d0170b997afdfe1576c8ce65a0c1.addTo(map_15d97dd1208c3309435503c9789b925a);
+        
+    
+            var feature_group_432b1e2d632350ee9e3520aa67756df7 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var circle_marker_7142b4f1c4eb8c57c12e446520b54352 = L.circleMarker(
+                [-23.011705, -43.452903],
+                {"bubblingMouseEvents": true, "color": "#2e7d32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2e7d32", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.0, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_0f742a66cefeca747ee7b36dbfbe2984 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_12742f1bf4a446f2f9ce1c1468a4b1df = $(`<div id="html_12742f1bf4a446f2f9ce1c1468a4b1df" style="width: 100.0%; height: 100.0%;"><b>COLÉGIO ALFACEM</b><br>Recreio dos Bandeirantes — Barra/Região<br>Inscritos EPGE (24-26): <b>0</b></div>`)[0];
+                popup_0f742a66cefeca747ee7b36dbfbe2984.setContent(html_12742f1bf4a446f2f9ce1c1468a4b1df);
+            
+        
+
+        circle_marker_7142b4f1c4eb8c57c12e446520b54352.bindPopup(popup_0f742a66cefeca747ee7b36dbfbe2984)
+        ;
+
+        
+    
+    
+            circle_marker_7142b4f1c4eb8c57c12e446520b54352.bindTooltip(
+                `<div>
+                     COLÉGIO ALFACEM (0)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_c8be2449c8b9287339f4753c17784615 = L.circleMarker(
+                [-22.917979, -43.2282252],
+                {"bubblingMouseEvents": true, "color": "#757575", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#757575", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.0, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_34760a990b474c2a116e4c859d88e9e0 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_f194aa60a37dfa0ab82347137225757c = $(`<div id="html_f194aa60a37dfa0ab82347137225757c" style="width: 100.0%; height: 100.0%;"><b>COLÉGIO MILITAR DO RIO DE JANEIRO  (Público)</b><br>Maracanã — Centro/Norte<br>Inscritos EPGE (24-26): <b>0</b></div>`)[0];
+                popup_34760a990b474c2a116e4c859d88e9e0.setContent(html_f194aa60a37dfa0ab82347137225757c);
+            
+        
+
+        circle_marker_c8be2449c8b9287339f4753c17784615.bindPopup(popup_34760a990b474c2a116e4c859d88e9e0)
+        ;
+
+        
+    
+    
+            circle_marker_c8be2449c8b9287339f4753c17784615.bindTooltip(
+                `<div>
+                     COLÉGIO MILITAR DO RIO DE JANEIRO  (Público) (0)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_38d9bef9e4b4c3bec3b1fb9d19326b45 = L.circleMarker(
+                [-22.8989556, -43.2226191],
+                {"bubblingMouseEvents": true, "color": "#757575", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#757575", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.0, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_b4045352a8d23bee28dbe1129a78fd9d = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_305d4a8356ee320012cc635dd190414f = $(`<div id="html_305d4a8356ee320012cc635dd190414f" style="width: 100.0%; height: 100.0%;"><b>COLÉGIO PEDRO II (Público)</b><br>São Cristóvão — Centro/Norte<br>Inscritos EPGE (24-26): <b>0</b></div>`)[0];
+                popup_b4045352a8d23bee28dbe1129a78fd9d.setContent(html_305d4a8356ee320012cc635dd190414f);
+            
+        
+
+        circle_marker_38d9bef9e4b4c3bec3b1fb9d19326b45.bindPopup(popup_b4045352a8d23bee28dbe1129a78fd9d)
+        ;
+
+        
+    
+    
+            circle_marker_38d9bef9e4b4c3bec3b1fb9d19326b45.bindTooltip(
+                `<div>
+                     COLÉGIO PEDRO II (Público) (0)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_e5e9fd524cf9e8f5f647423a7ee8474f = L.circleMarker(
+                [-22.9092177, -43.2001867],
+                {"bubblingMouseEvents": true, "color": "#757575", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#757575", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.0, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_e195f17d860ddbde6f0e1fe2dc5753eb = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_22d59e813e34b59d2c81225b118d6b44 = $(`<div id="html_22d59e813e34b59d2c81225b118d6b44" style="width: 100.0%; height: 100.0%;"><b>EDUCAÇÃO DE JOVENS E ADULTOS (CEJA/ENCEJA) (Público)</b><br>Cidade Nova — Centro/Norte<br>Inscritos EPGE (24-26): <b>0</b></div>`)[0];
+                popup_e195f17d860ddbde6f0e1fe2dc5753eb.setContent(html_22d59e813e34b59d2c81225b118d6b44);
+            
+        
+
+        circle_marker_e5e9fd524cf9e8f5f647423a7ee8474f.bindPopup(popup_e195f17d860ddbde6f0e1fe2dc5753eb)
+        ;
+
+        
+    
+    
+            circle_marker_e5e9fd524cf9e8f5f647423a7ee8474f.bindTooltip(
+                `<div>
+                     EDUCAÇÃO DE JOVENS E ADULTOS (CEJA/ENCEJA) (Público) (0)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_5d440d1a5a5d37b689dac09328727f8e = L.circleMarker(
+                [-22.9990876, -43.3755286],
+                {"bubblingMouseEvents": true, "color": "#2e7d32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2e7d32", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 4.0, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_a06f58ca54d0867d411fdb462fa42692 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_14b55962c4780c1a7c6dd390812eebae = $(`<div id="html_14b55962c4780c1a7c6dd390812eebae" style="width: 100.0%; height: 100.0%;"><b>CE VICENTE JANNUZZI (Público)</b><br>Barra da Tijuca — Barra/Região<br>Inscritos EPGE (24-26): <b>0</b></div>`)[0];
+                popup_a06f58ca54d0867d411fdb462fa42692.setContent(html_14b55962c4780c1a7c6dd390812eebae);
+            
+        
+
+        circle_marker_5d440d1a5a5d37b689dac09328727f8e.bindPopup(popup_a06f58ca54d0867d411fdb462fa42692)
+        ;
+
+        
+    
+    
+            circle_marker_5d440d1a5a5d37b689dac09328727f8e.bindTooltip(
+                `<div>
+                     CE VICENTE JANNUZZI (Público) (0)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_1c43cefe255760450315bb0e400a68a8 = L.circleMarker(
+                [-23.0026718, -43.3528113],
+                {"bubblingMouseEvents": true, "color": "#2e7d32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2e7d32", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5.7, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_e8fa924597bffe3509534f080373f713 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_4a6ba9643371d1216f20e3176d3f3ad0 = $(`<div id="html_4a6ba9643371d1216f20e3176d3f3ad0" style="width: 100.0%; height: 100.0%;"><b>COLÉGIO SAINT JOHN</b><br>Barra da Tijuca — Barra/Região<br>Inscritos EPGE (24-26): <b>1</b></div>`)[0];
+                popup_e8fa924597bffe3509534f080373f713.setContent(html_4a6ba9643371d1216f20e3176d3f3ad0);
+            
+        
+
+        circle_marker_1c43cefe255760450315bb0e400a68a8.bindPopup(popup_e8fa924597bffe3509534f080373f713)
+        ;
+
+        
+    
+    
+            circle_marker_1c43cefe255760450315bb0e400a68a8.bindTooltip(
+                `<div>
+                     COLÉGIO SAINT JOHN (1)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_2aa10577b11942aa9ebae18152ffa84f = L.circleMarker(
+                [-22.9996502, -43.3894562],
+                {"bubblingMouseEvents": true, "color": "#2e7d32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2e7d32", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 5.7, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_9d45b5892bad21abf7f27886c65c0c7e = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_67643c7fd7d7a094252407a7e238f4d9 = $(`<div id="html_67643c7fd7d7a094252407a7e238f4d9" style="width: 100.0%; height: 100.0%;"><b>COL BAHIENSE LTDA</b><br>Barra da Tijuca — Barra/Região<br>Inscritos EPGE (24-26): <b>1</b></div>`)[0];
+                popup_9d45b5892bad21abf7f27886c65c0c7e.setContent(html_67643c7fd7d7a094252407a7e238f4d9);
+            
+        
+
+        circle_marker_2aa10577b11942aa9ebae18152ffa84f.bindPopup(popup_9d45b5892bad21abf7f27886c65c0c7e)
+        ;
+
+        
+    
+    
+            circle_marker_2aa10577b11942aa9ebae18152ffa84f.bindTooltip(
+                `<div>
+                     COL BAHIENSE LTDA (1)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b971df094ea4cd96d2894c32880ea05d = L.circleMarker(
+                [-22.9953182, -43.401947],
+                {"bubblingMouseEvents": true, "color": "#2e7d32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2e7d32", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6.404163056034262, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_583b968f88405eb98ab99d3ee80506b9 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_42fd2687886f8f1af3f58ddb68a28ef7 = $(`<div id="html_42fd2687886f8f1af3f58ddb68a28ef7" style="width: 100.0%; height: 100.0%;"><b>ESCOLA AMERICANA DO RIO DE JANEIRO</b><br>Barra da Tijuca — Barra/Região<br>Inscritos EPGE (24-26): <b>2</b></div>`)[0];
+                popup_583b968f88405eb98ab99d3ee80506b9.setContent(html_42fd2687886f8f1af3f58ddb68a28ef7);
+            
+        
+
+        circle_marker_b971df094ea4cd96d2894c32880ea05d.bindPopup(popup_583b968f88405eb98ab99d3ee80506b9)
+        ;
+
+        
+    
+    
+            circle_marker_b971df094ea4cd96d2894c32880ea05d.bindTooltip(
+                `<div>
+                     ESCOLA AMERICANA DO RIO DE JANEIRO (2)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_736d5e54f7a4cca5fdcdee5206ba4697 = L.circleMarker(
+                [-23.00855, -43.31664],
+                {"bubblingMouseEvents": true, "color": "#2e7d32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2e7d32", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6.404163056034262, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_d6823998bf3c797def042bf4f5b05fa8 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_b76b33c9f7111c6d16cfa87d884dc277 = $(`<div id="html_b76b33c9f7111c6d16cfa87d884dc277" style="width: 100.0%; height: 100.0%;"><b>SANTA MÔNICA CENTRO EDUCACIONAL</b><br>Barra da Tijuca — Barra/Região<br>Inscritos EPGE (24-26): <b>2</b></div>`)[0];
+                popup_d6823998bf3c797def042bf4f5b05fa8.setContent(html_b76b33c9f7111c6d16cfa87d884dc277);
+            
+        
+
+        circle_marker_736d5e54f7a4cca5fdcdee5206ba4697.bindPopup(popup_d6823998bf3c797def042bf4f5b05fa8)
+        ;
+
+        
+    
+    
+            circle_marker_736d5e54f7a4cca5fdcdee5206ba4697.bindTooltip(
+                `<div>
+                     SANTA MÔNICA CENTRO EDUCACIONAL (2)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b7e6947df56cc139f18be49210f05385 = L.circleMarker(
+                [-22.9369879, -43.3376505],
+                {"bubblingMouseEvents": true, "color": "#2e7d32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2e7d32", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6.944486372867091, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_babe06cc3e51314b2e2fddced06f75eb = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_d09e44bd012e36f36e2401529aad9148 = $(`<div id="html_d09e44bd012e36f36e2401529aad9148" style="width: 100.0%; height: 100.0%;"><b>AVANCO FREGUESIA COLEGIO E CURSO LTDA</b><br>Freguesia (Jacarepaguá) — Barra/Região<br>Inscritos EPGE (24-26): <b>3</b></div>`)[0];
+                popup_babe06cc3e51314b2e2fddced06f75eb.setContent(html_d09e44bd012e36f36e2401529aad9148);
+            
+        
+
+        circle_marker_b7e6947df56cc139f18be49210f05385.bindPopup(popup_babe06cc3e51314b2e2fddced06f75eb)
+        ;
+
+        
+    
+    
+            circle_marker_b7e6947df56cc139f18be49210f05385.bindTooltip(
+                `<div>
+                     AVANCO FREGUESIA COLEGIO E CURSO LTDA (3)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_87939d77cbcf7a1b6ce3df0ce8e34280 = L.circleMarker(
+                [-22.9377056, -43.3445365],
+                {"bubblingMouseEvents": true, "color": "#2e7d32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2e7d32", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7.4, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_1a71051da3504ae1343b58f282bc0b07 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_91dbd3b07b34df411416387b6db9bac0 = $(`<div id="html_91dbd3b07b34df411416387b6db9bac0" style="width: 100.0%; height: 100.0%;"><b>UNID INTEG GARRIGA DE MENEZES</b><br>Freguesia (Jacarepaguá) — Barra/Região<br>Inscritos EPGE (24-26): <b>4</b></div>`)[0];
+                popup_1a71051da3504ae1343b58f282bc0b07.setContent(html_91dbd3b07b34df411416387b6db9bac0);
+            
+        
+
+        circle_marker_87939d77cbcf7a1b6ce3df0ce8e34280.bindPopup(popup_1a71051da3504ae1343b58f282bc0b07)
+        ;
+
+        
+    
+    
+            circle_marker_87939d77cbcf7a1b6ce3df0ce8e34280.bindTooltip(
+                `<div>
+                     UNID INTEG GARRIGA DE MENEZES (4)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_bbdeb10f45be369e74338f07cb39b4fc = L.circleMarker(
+                [-23.00015, -43.30462],
+                {"bubblingMouseEvents": true, "color": "#2e7d32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2e7d32", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7.801315561749643, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_0c1d1b230e3780c9d6590f934b253928 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_bf4addf3f7b6d1199b096dc7dd4644db = $(`<div id="html_bf4addf3f7b6d1199b096dc7dd4644db" style="width: 100.0%; height: 100.0%;"><b>COLÉGIO EVEREST</b><br>Itanhangá — Barra/Região<br>Inscritos EPGE (24-26): <b>5</b></div>`)[0];
+                popup_0c1d1b230e3780c9d6590f934b253928.setContent(html_bf4addf3f7b6d1199b096dc7dd4644db);
+            
+        
+
+        circle_marker_bbdeb10f45be369e74338f07cb39b4fc.bindPopup(popup_0c1d1b230e3780c9d6590f934b253928)
+        ;
+
+        
+    
+    
+            circle_marker_bbdeb10f45be369e74338f07cb39b4fc.bindTooltip(
+                `<div>
+                     COLÉGIO EVEREST (5)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_f496ab865e57d14b08f78c6f1a166b75 = L.circleMarker(
+                [-22.9341277, -43.2427783],
+                {"bubblingMouseEvents": true, "color": "#757575", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#757575", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7.801315561749643, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_73b0ceba727209fe0f4f0923574e9712 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_b818186ada19eb72575ccf3f6c6146cb = $(`<div id="html_b818186ada19eb72575ccf3f6c6146cb" style="width: 100.0%; height: 100.0%;"><b>COLÉGIO PALAS</b><br>Tijuca — Centro/Norte<br>Inscritos EPGE (24-26): <b>5</b></div>`)[0];
+                popup_73b0ceba727209fe0f4f0923574e9712.setContent(html_b818186ada19eb72575ccf3f6c6146cb);
+            
+        
+
+        circle_marker_f496ab865e57d14b08f78c6f1a166b75.bindPopup(popup_73b0ceba727209fe0f4f0923574e9712)
+        ;
+
+        
+    
+    
+            circle_marker_f496ab865e57d14b08f78c6f1a166b75.bindTooltip(
+                `<div>
+                     COLÉGIO PALAS (5)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_ac8f9ef8bae86a639d5b1e30dc9d91f8 = L.circleMarker(
+                [-23.00225, -43.36073],
+                {"bubblingMouseEvents": true, "color": "#2e7d32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2e7d32", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.497777228809804, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_01e90f1a678a7e0feb36f59dc70e1af5 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_e3c38bc540534d453654f4ef1c6616ec = $(`<div id="html_e3c38bc540534d453654f4ef1c6616ec" style="width: 100.0%; height: 100.0%;"><b>COLÉGIO ANGLO-AMERICANO</b><br>Barra da Tijuca — Barra/Região<br>Inscritos EPGE (24-26): <b>7</b></div>`)[0];
+                popup_01e90f1a678a7e0feb36f59dc70e1af5.setContent(html_e3c38bc540534d453654f4ef1c6616ec);
+            
+        
+
+        circle_marker_ac8f9ef8bae86a639d5b1e30dc9d91f8.bindPopup(popup_01e90f1a678a7e0feb36f59dc70e1af5)
+        ;
+
+        
+    
+    
+            circle_marker_ac8f9ef8bae86a639d5b1e30dc9d91f8.bindTooltip(
+                `<div>
+                     COLÉGIO ANGLO-AMERICANO (7)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_99fd90d9b885abd8672a5aa788092129 = L.circleMarker(
+                [-22.9765095, -43.229406],
+                {"bubblingMouseEvents": true, "color": "#1565c0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#1565c0", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.497777228809804, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_7489c9cb46ee90b513d0ce12c702e5a7 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_cd2136766f5bf4014b8232eec5a684f5 = $(`<div id="html_cd2136766f5bf4014b8232eec5a684f5" style="width: 100.0%; height: 100.0%;"><b>COLÉGIO TERESIANO</b><br>Gávea — Zona Sul/Botafogo<br>Inscritos EPGE (24-26): <b>7</b></div>`)[0];
+                popup_7489c9cb46ee90b513d0ce12c702e5a7.setContent(html_cd2136766f5bf4014b8232eec5a684f5);
+            
+        
+
+        circle_marker_99fd90d9b885abd8672a5aa788092129.bindPopup(popup_7489c9cb46ee90b513d0ce12c702e5a7)
+        ;
+
+        
+    
+    
+            circle_marker_99fd90d9b885abd8672a5aa788092129.bindTooltip(
+                `<div>
+                     COLÉGIO TERESIANO (7)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_fbf46555c279d581d0bcf8435e596cbd = L.circleMarker(
+                [-23.0001824, -43.4196593],
+                {"bubblingMouseEvents": true, "color": "#2e7d32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2e7d32", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9.375872022286245, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_f4ca16a226548c49fd0b4162e2100ec2 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_47d925d7a55620554f9cad48dc4d6c02 = $(`<div id="html_47d925d7a55620554f9cad48dc4d6c02" style="width: 100.0%; height: 100.0%;"><b>COLÉGIO AO CUBO</b><br>Barra da Tijuca — Barra/Região<br>Inscritos EPGE (24-26): <b>10</b></div>`)[0];
+                popup_f4ca16a226548c49fd0b4162e2100ec2.setContent(html_47d925d7a55620554f9cad48dc4d6c02);
+            
+        
+
+        circle_marker_fbf46555c279d581d0bcf8435e596cbd.bindPopup(popup_f4ca16a226548c49fd0b4162e2100ec2)
+        ;
+
+        
+    
+    
+            circle_marker_fbf46555c279d581d0bcf8435e596cbd.bindTooltip(
+                `<div>
+                     COLÉGIO AO CUBO (10)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_8a607dd07968e7270ceeb81640b39783 = L.circleMarker(
+                [-22.969373, -43.3821694],
+                {"bubblingMouseEvents": true, "color": "#2e7d32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2e7d32", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9.375872022286245, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_247ebd08b7f631a2d5889e123026dff7 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_3ce215352a3dc200746f8f3c08e00a17 = $(`<div id="html_3ce215352a3dc200746f8f3c08e00a17" style="width: 100.0%; height: 100.0%;"><b>COLÉGIO MARISTA</b><br>Barra da Tijuca — Barra/Região<br>Inscritos EPGE (24-26): <b>10</b></div>`)[0];
+                popup_247ebd08b7f631a2d5889e123026dff7.setContent(html_3ce215352a3dc200746f8f3c08e00a17);
+            
+        
+
+        circle_marker_8a607dd07968e7270ceeb81640b39783.bindPopup(popup_247ebd08b7f631a2d5889e123026dff7)
+        ;
+
+        
+    
+    
+            circle_marker_8a607dd07968e7270ceeb81640b39783.bindTooltip(
+                `<div>
+                     COLÉGIO MARISTA (10)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_b4259c11461b2136ed120ff1d4ca662d = L.circleMarker(
+                [-23.0183036, -43.502227],
+                {"bubblingMouseEvents": true, "color": "#2e7d32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2e7d32", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9.63826214360418, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_38f0cf67836cb4145afa11fc8bf505a3 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_6ebdb94f20f28d7b7cc580650df9e201 = $(`<div id="html_6ebdb94f20f28d7b7cc580650df9e201" style="width: 100.0%; height: 100.0%;"><b>COLÉGIO NOTRE DAME</b><br>Vargem Grande — Barra/Região<br>Inscritos EPGE (24-26): <b>11</b></div>`)[0];
+                popup_38f0cf67836cb4145afa11fc8bf505a3.setContent(html_6ebdb94f20f28d7b7cc580650df9e201);
+            
+        
+
+        circle_marker_b4259c11461b2136ed120ff1d4ca662d.bindPopup(popup_38f0cf67836cb4145afa11fc8bf505a3)
+        ;
+
+        
+    
+    
+            circle_marker_b4259c11461b2136ed120ff1d4ca662d.bindTooltip(
+                `<div>
+                     COLÉGIO NOTRE DAME (11)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_623b6ee0f7ffaf5ce804f53deb184c6f = L.circleMarker(
+                [-23.0087005, -43.2969028],
+                {"bubblingMouseEvents": true, "color": "#2e7d32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2e7d32", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.129437168288781, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_6e05eb327b08887230a0db618b4d0e0a = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_7e25ae917de847a28a51ee14008dc0c2 = $(`<div id="html_7e25ae917de847a28a51ee14008dc0c2" style="width: 100.0%; height: 100.0%;"><b>CENTRO EDUCACIONAL ESPAÇO INTEGRADO (CEI)</b><br>Barra da Tijuca — Barra/Região<br>Inscritos EPGE (24-26): <b>13</b></div>`)[0];
+                popup_6e05eb327b08887230a0db618b4d0e0a.setContent(html_7e25ae917de847a28a51ee14008dc0c2);
+            
+        
+
+        circle_marker_623b6ee0f7ffaf5ce804f53deb184c6f.bindPopup(popup_6e05eb327b08887230a0db618b4d0e0a)
+        ;
+
+        
+    
+    
+            circle_marker_623b6ee0f7ffaf5ce804f53deb184c6f.bindTooltip(
+                `<div>
+                     CENTRO EDUCACIONAL ESPAÇO INTEGRADO (CEI) (13)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_afea993b213f6b2b63779cbd827338d1 = L.circleMarker(
+                [-22.9275671, -43.3442683],
+                {"bubblingMouseEvents": true, "color": "#2e7d32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2e7d32", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.129437168288781, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_2bb37590538b0f5c7c08e67b75790c8d = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_f6bf9a61f2b5c46511e1d60f1b1833a7 = $(`<div id="html_f6bf9a61f2b5c46511e1d60f1b1833a7" style="width: 100.0%; height: 100.0%;"><b>INSTITUTO NOSSA SENHORA DA PIEDADE</b><br>Pechincha — Barra/Região<br>Inscritos EPGE (24-26): <b>13</b></div>`)[0];
+                popup_2bb37590538b0f5c7c08e67b75790c8d.setContent(html_f6bf9a61f2b5c46511e1d60f1b1833a7);
+            
+        
+
+        circle_marker_afea993b213f6b2b63779cbd827338d1.bindPopup(popup_2bb37590538b0f5c7c08e67b75790c8d)
+        ;
+
+        
+    
+    
+            circle_marker_afea993b213f6b2b63779cbd827338d1.bindTooltip(
+                `<div>
+                     INSTITUTO NOSSA SENHORA DA PIEDADE (13)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_dcd5a31a355e7b2af6b08971f9779300 = L.circleMarker(
+                [-22.9733235, -43.1926698],
+                {"bubblingMouseEvents": true, "color": "#1565c0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#1565c0", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.129437168288781, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_ce6381cfccf2db9b4884df77327d907b = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_10448d05f2858df30235453cd2b4bb30 = $(`<div id="html_10448d05f2858df30235453cd2b4bb30" style="width: 100.0%; height: 100.0%;"><b>COLÉGIO TTH BAR-ILAN</b><br>Copacabana — Zona Sul/Botafogo<br>Inscritos EPGE (24-26): <b>13</b></div>`)[0];
+                popup_ce6381cfccf2db9b4884df77327d907b.setContent(html_10448d05f2858df30235453cd2b4bb30);
+            
+        
+
+        circle_marker_dcd5a31a355e7b2af6b08971f9779300.bindPopup(popup_ce6381cfccf2db9b4884df77327d907b)
+        ;
+
+        
+    
+    
+            circle_marker_dcd5a31a355e7b2af6b08971f9779300.bindTooltip(
+                `<div>
+                     COLÉGIO TTH BAR-ILAN (13)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_800920049f60d5addf7af012f9cc6383 = L.circleMarker(
+                [-22.9932, -43.30293],
+                {"bubblingMouseEvents": true, "color": "#2e7d32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2e7d32", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.129437168288781, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_b2453df78da820ef2c190a94db55cd6e = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_da927ce2c2379752f50df85fef331ed5 = $(`<div id="html_da927ce2c2379752f50df85fef331ed5" style="width: 100.0%; height: 100.0%;"><b>GRUPO EDUCACIONAL MOPI</b><br>Itanhangá — Barra/Região<br>Inscritos EPGE (24-26): <b>13</b></div>`)[0];
+                popup_b2453df78da820ef2c190a94db55cd6e.setContent(html_da927ce2c2379752f50df85fef331ed5);
+            
+        
+
+        circle_marker_800920049f60d5addf7af012f9cc6383.bindPopup(popup_b2453df78da820ef2c190a94db55cd6e)
+        ;
+
+        
+    
+    
+            circle_marker_800920049f60d5addf7af012f9cc6383.bindTooltip(
+                `<div>
+                     GRUPO EDUCACIONAL MOPI (13)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d2909ab946541b22dbcab509de1c880a = L.circleMarker(
+                [-23.0056972, -43.3839261],
+                {"bubblingMouseEvents": true, "color": "#2e7d32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2e7d32", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 11.602631123499286, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_983c7104783677f7aaf8181f82953e19 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_f231f00de2fa749e10fba28ac3da8d8a = $(`<div id="html_f231f00de2fa749e10fba28ac3da8d8a" style="width: 100.0%; height: 100.0%;"><b>ESCOLA CAROLINA PATRÍCIO</b><br>Barra da Tijuca — Barra/Região<br>Inscritos EPGE (24-26): <b>20</b></div>`)[0];
+                popup_983c7104783677f7aaf8181f82953e19.setContent(html_f231f00de2fa749e10fba28ac3da8d8a);
+            
+        
+
+        circle_marker_d2909ab946541b22dbcab509de1c880a.bindPopup(popup_983c7104783677f7aaf8181f82953e19)
+        ;
+
+        
+    
+    
+            circle_marker_d2909ab946541b22dbcab509de1c880a.bindTooltip(
+                `<div>
+                     ESCOLA CAROLINA PATRÍCIO (20)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_d5d74e8a10a46761cdc965336a2d1c30 = L.circleMarker(
+                [-22.9677119, -43.3914629],
+                {"bubblingMouseEvents": true, "color": "#2e7d32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2e7d32", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 11.602631123499286, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_2fe3db550a760b201624f151ecd167d0 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_21543ca2237f42ae3fcb63d3f1e4ae11 = $(`<div id="html_21543ca2237f42ae3fcb63d3f1e4ae11" style="width: 100.0%; height: 100.0%;"><b>COLÉGIO OBJETIVO</b><br>Barra Olímpica — Barra/Região<br>Inscritos EPGE (24-26): <b>20</b></div>`)[0];
+                popup_2fe3db550a760b201624f151ecd167d0.setContent(html_21543ca2237f42ae3fcb63d3f1e4ae11);
+            
+        
+
+        circle_marker_d5d74e8a10a46761cdc965336a2d1c30.bindPopup(popup_2fe3db550a760b201624f151ecd167d0)
+        ;
+
+        
+    
+    
+            circle_marker_d5d74e8a10a46761cdc965336a2d1c30.bindTooltip(
+                `<div>
+                     COLÉGIO OBJETIVO (20)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_842bc0af41b80e42c859174036d3545a = L.circleMarker(
+                [-23.0165281, -43.4583847],
+                {"bubblingMouseEvents": true, "color": "#2e7d32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2e7d32", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 11.790378681424928, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_14cfa9cf30ff6e6d3b85369b7c996cb5 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_63601f1e4e77533d3bee9971b34ecce3 = $(`<div id="html_63601f1e4e77533d3bee9971b34ecce3" style="width: 100.0%; height: 100.0%;"><b>COLÉGIO RECANTO</b><br>Recreio dos Bandeirantes — Barra/Região<br>Inscritos EPGE (24-26): <b>21</b></div>`)[0];
+                popup_14cfa9cf30ff6e6d3b85369b7c996cb5.setContent(html_63601f1e4e77533d3bee9971b34ecce3);
+            
+        
+
+        circle_marker_842bc0af41b80e42c859174036d3545a.bindPopup(popup_14cfa9cf30ff6e6d3b85369b7c996cb5)
+        ;
+
+        
+    
+    
+            circle_marker_842bc0af41b80e42c859174036d3545a.bindTooltip(
+                `<div>
+                     COLÉGIO RECANTO (21)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_675c57ed70f3e354c729cd8c4532a5a1 = L.circleMarker(
+                [-22.8412691, -43.3691465],
+                {"bubblingMouseEvents": true, "color": "#757575", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#757575", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 12.328265125462805, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_b5e7506c845fd43373a9c5b314183626 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_a3e1d28a21dd29ca3250dc64f296bff4 = $(`<div id="html_a3e1d28a21dd29ca3250dc64f296bff4" style="width: 100.0%; height: 100.0%;"><b>SISTEMA ELITE DE ENSINO</b><br>Guadalupe — Centro/Norte<br>Inscritos EPGE (24-26): <b>24</b></div>`)[0];
+                popup_b5e7506c845fd43373a9c5b314183626.setContent(html_a3e1d28a21dd29ca3250dc64f296bff4);
+            
+        
+
+        circle_marker_675c57ed70f3e354c729cd8c4532a5a1.bindPopup(popup_b5e7506c845fd43373a9c5b314183626)
+        ;
+
+        
+    
+    
+            circle_marker_675c57ed70f3e354c729cd8c4532a5a1.bindTooltip(
+                `<div>
+                     SISTEMA ELITE DE ENSINO (24)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_288c4bd24b3587b52c0c25a58fb687c9 = L.circleMarker(
+                [-23.00713, -43.29394],
+                {"bubblingMouseEvents": true, "color": "#2e7d32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2e7d32", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 12.668333173107733, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_14315a5b0523e0c226b53f5cf5fddf0b = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_dc338b44869c1ed20d3f01494fd92379 = $(`<div id="html_dc338b44869c1ed20d3f01494fd92379" style="width: 100.0%; height: 100.0%;"><b>ESCOLA SUIÇO BRASILEIRA DO RIO DE JANEIRO</b><br>Barra da Tijuca — Barra/Região<br>Inscritos EPGE (24-26): <b>26</b></div>`)[0];
+                popup_14315a5b0523e0c226b53f5cf5fddf0b.setContent(html_dc338b44869c1ed20d3f01494fd92379);
+            
+        
+
+        circle_marker_288c4bd24b3587b52c0c25a58fb687c9.bindPopup(popup_14315a5b0523e0c226b53f5cf5fddf0b)
+        ;
+
+        
+    
+    
+            circle_marker_288c4bd24b3587b52c0c25a58fb687c9.bindTooltip(
+                `<div>
+                     ESCOLA SUIÇO BRASILEIRA DO RIO DE JANEIRO (26)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_4fc6903faefa5cd4d50e4c9a86869fb7 = L.circleMarker(
+                [-23.0081119, -43.4243458],
+                {"bubblingMouseEvents": true, "color": "#2e7d32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2e7d32", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 13.912618221237011, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_5db6b61c189e0eb361a2d51c4b3201f9 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_1dc6f8678e2f411fb21f5867a649b087 = $(`<div id="html_1dc6f8678e2f411fb21f5867a649b087" style="width: 100.0%; height: 100.0%;"><b>ESCOLA PARQUE</b><br>Barra da Tijuca — Barra/Região<br>Inscritos EPGE (24-26): <b>34</b></div>`)[0];
+                popup_5db6b61c189e0eb361a2d51c4b3201f9.setContent(html_1dc6f8678e2f411fb21f5867a649b087);
+            
+        
+
+        circle_marker_4fc6903faefa5cd4d50e4c9a86869fb7.bindPopup(popup_5db6b61c189e0eb361a2d51c4b3201f9)
+        ;
+
+        
+    
+    
+            circle_marker_4fc6903faefa5cd4d50e4c9a86869fb7.bindTooltip(
+                `<div>
+                     ESCOLA PARQUE (34)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_1bf8e93620e9bb02103d55d2db2ff19b = L.circleMarker(
+                [-22.9505031, -43.1949796],
+                {"bubblingMouseEvents": true, "color": "#1565c0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#1565c0", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 13.912618221237011, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_bb604ad300ac744ce3dc730390b41697 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_5b9cfaaa998b00ca5eeae350f36a8b8d = $(`<div id="html_5b9cfaaa998b00ca5eeae350f36a8b8d" style="width: 100.0%; height: 100.0%;"><b>ESCOLA ALEMÃ CORCOVADO</b><br>Botafogo — Zona Sul/Botafogo<br>Inscritos EPGE (24-26): <b>34</b></div>`)[0];
+                popup_bb604ad300ac744ce3dc730390b41697.setContent(html_5b9cfaaa998b00ca5eeae350f36a8b8d);
+            
+        
+
+        circle_marker_1bf8e93620e9bb02103d55d2db2ff19b.bindPopup(popup_bb604ad300ac744ce3dc730390b41697)
+        ;
+
+        
+    
+    
+            circle_marker_1bf8e93620e9bb02103d55d2db2ff19b.bindTooltip(
+                `<div>
+                     ESCOLA ALEMÃ CORCOVADO (34)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_095df93d194cd0d4f77bd92481ab3c25 = L.circleMarker(
+                [-22.9943301, -43.4031123],
+                {"bubblingMouseEvents": true, "color": "#2e7d32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2e7d32", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 15.017259187293362, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_4f1254d9460927fa3d4c0fd2bcbe5c9a = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_eec99c43256bb7a55a5181c423821c74 = $(`<div id="html_eec99c43256bb7a55a5181c423821c74" style="width: 100.0%; height: 100.0%;"><b>ESCOLA BRITANICA</b><br>Barra da Tijuca — Barra/Região<br>Inscritos EPGE (24-26): <b>42</b></div>`)[0];
+                popup_4f1254d9460927fa3d4c0fd2bcbe5c9a.setContent(html_eec99c43256bb7a55a5181c423821c74);
+            
+        
+
+        circle_marker_095df93d194cd0d4f77bd92481ab3c25.bindPopup(popup_4f1254d9460927fa3d4c0fd2bcbe5c9a)
+        ;
+
+        
+    
+    
+            circle_marker_095df93d194cd0d4f77bd92481ab3c25.bindTooltip(
+                `<div>
+                     ESCOLA BRITANICA (42)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_61ca8afd458b4a6fd771c6d6857dcab4 = L.circleMarker(
+                [-22.93367, -43.35426],
+                {"bubblingMouseEvents": true, "color": "#2e7d32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2e7d32", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 15.654612820681775, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_3a83af71bad3e1406c373482ee2e71ec = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_1df5567302eeda981a4c703342bd66db = $(`<div id="html_1df5567302eeda981a4c703342bd66db" style="width: 100.0%; height: 100.0%;"><b>COLÉGIO CRUZEIRO</b><br>Pechincha — Barra/Região<br>Inscritos EPGE (24-26): <b>47</b></div>`)[0];
+                popup_3a83af71bad3e1406c373482ee2e71ec.setContent(html_1df5567302eeda981a4c703342bd66db);
+            
+        
+
+        circle_marker_61ca8afd458b4a6fd771c6d6857dcab4.bindPopup(popup_3a83af71bad3e1406c373482ee2e71ec)
+        ;
+
+        
+    
+    
+            circle_marker_61ca8afd458b4a6fd771c6d6857dcab4.bindTooltip(
+                `<div>
+                     COLÉGIO CRUZEIRO (47)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_331335efc54dd67f0600ac64a331ea40 = L.circleMarker(
+                [-23.0003554, -43.2742596],
+                {"bubblingMouseEvents": true, "color": "#2e7d32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2e7d32", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16.7216351150314, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_0af672bd2ccc2f7d165bac83d4d85f9c = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_b13b3a8e0daac238c54637ef10f7edeb = $(`<div id="html_b13b3a8e0daac238c54637ef10f7edeb" style="width: 100.0%; height: 100.0%;"><b>COLÉGIO ISRAELITA BRASILEIRO A LIESSIN SCHOLEM ALEICHEM</b><br>São Conrado — Barra/Região<br>Inscritos EPGE (24-26): <b>56</b></div>`)[0];
+                popup_0af672bd2ccc2f7d165bac83d4d85f9c.setContent(html_b13b3a8e0daac238c54637ef10f7edeb);
+            
+        
+
+        circle_marker_331335efc54dd67f0600ac64a331ea40.bindPopup(popup_0af672bd2ccc2f7d165bac83d4d85f9c)
+        ;
+
+        
+    
+    
+            circle_marker_331335efc54dd67f0600ac64a331ea40.bindTooltip(
+                `<div>
+                     COLÉGIO ISRAELITA BRASILEIRO A LIESSIN SCHOLEM ALEICHEM (56)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_6f75e79053a4e3bbc7a79b827d44bbf2 = L.circleMarker(
+                [-22.8974796, -43.1797459],
+                {"bubblingMouseEvents": true, "color": "#757575", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#757575", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.277424449041312, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_34b8edcbba1dad0c1519a0d4d2acf39c = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_81a8347b739a304286944338e98b098b = $(`<div id="html_81a8347b739a304286944338e98b098b" style="width: 100.0%; height: 100.0%;"><b>COLÉGIO SÃO BENTO</b><br>Centro — Centro/Norte<br>Inscritos EPGE (24-26): <b>61</b></div>`)[0];
+                popup_34b8edcbba1dad0c1519a0d4d2acf39c.setContent(html_81a8347b739a304286944338e98b098b);
+            
+        
+
+        circle_marker_6f75e79053a4e3bbc7a79b827d44bbf2.bindPopup(popup_34b8edcbba1dad0c1519a0d4d2acf39c)
+        ;
+
+        
+    
+    
+            circle_marker_6f75e79053a4e3bbc7a79b827d44bbf2.bindTooltip(
+                `<div>
+                     COLÉGIO SÃO BENTO (61)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_acdfd2bf97adf52e281a70987380cf28 = L.circleMarker(
+                [-22.985072, -43.3596072],
+                {"bubblingMouseEvents": true, "color": "#2e7d32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2e7d32", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18.42497833620557, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_d0be1fb336e97942bde2eaae04f9cecd = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_281b6561df046782daf730bf8155a558 = $(`<div id="html_281b6561df046782daf730bf8155a558" style="width: 100.0%; height: 100.0%;"><b>ESCOLA ELEVA</b><br>Barra da Tijuca — Barra/Região<br>Inscritos EPGE (24-26): <b>72</b></div>`)[0];
+                popup_d0be1fb336e97942bde2eaae04f9cecd.setContent(html_281b6561df046782daf730bf8155a558);
+            
+        
+
+        circle_marker_acdfd2bf97adf52e281a70987380cf28.bindPopup(popup_d0be1fb336e97942bde2eaae04f9cecd)
+        ;
+
+        
+    
+    
+            circle_marker_acdfd2bf97adf52e281a70987380cf28.bindTooltip(
+                `<div>
+                     ESCOLA ELEVA (72)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_272878c5b4fc4e83dea04daf3c5df772 = L.circleMarker(
+                [-23.0005688, -43.3583088],
+                {"bubblingMouseEvents": true, "color": "#2e7d32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2e7d32", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18.5248063670398, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_ca3def40c4fb4c533778839ccf70d61c = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_4385346fcbac22e5f0c3d3a8e3e12969 = $(`<div id="html_4385346fcbac22e5f0c3d3a8e3e12969" style="width: 100.0%; height: 100.0%;"><b>COLÉGIO DE A A Z</b><br>Barra da Tijuca — Barra/Região<br>Inscritos EPGE (24-26): <b>73</b></div>`)[0];
+                popup_ca3def40c4fb4c533778839ccf70d61c.setContent(html_4385346fcbac22e5f0c3d3a8e3e12969);
+            
+        
+
+        circle_marker_272878c5b4fc4e83dea04daf3c5df772.bindPopup(popup_ca3def40c4fb4c533778839ccf70d61c)
+        ;
+
+        
+    
+    
+            circle_marker_272878c5b4fc4e83dea04daf3c5df772.bindTooltip(
+                `<div>
+                     COLÉGIO DE A A Z (73)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_9596470b448c7bdc7530cd0b62d51b3b = L.circleMarker(
+                [-22.9131815, -43.2203323],
+                {"bubblingMouseEvents": true, "color": "#757575", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#757575", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 19.299999999999997, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_c33825d12a473e84ff8030ebf999438b = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_42c5ce56a3a9cfaf17f55bfde79f25d3 = $(`<div id="html_42c5ce56a3a9cfaf17f55bfde79f25d3" style="width: 100.0%; height: 100.0%;"><b>COLÉGIO PENSI</b><br>Maracanã — Centro/Norte<br>Inscritos EPGE (24-26): <b>81</b></div>`)[0];
+                popup_c33825d12a473e84ff8030ebf999438b.setContent(html_42c5ce56a3a9cfaf17f55bfde79f25d3);
+            
+        
+
+        circle_marker_9596470b448c7bdc7530cd0b62d51b3b.bindPopup(popup_c33825d12a473e84ff8030ebf999438b)
+        ;
+
+        
+    
+    
+            circle_marker_9596470b448c7bdc7530cd0b62d51b3b.bindTooltip(
+                `<div>
+                     COLÉGIO PENSI (81)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_c00abacf78e1fea2d948d5ba1957f5b2 = L.circleMarker(
+                [-22.9491036, -43.1903768],
+                {"bubblingMouseEvents": true, "color": "#1565c0", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#1565c0", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 23.233304448274094, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_a7df7c8b2bc926c10dedf9049dee18b4 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_eca3aada048d429903c1657264e1fe13 = $(`<div id="html_eca3aada048d429903c1657264e1fe13" style="width: 100.0%; height: 100.0%;"><b>COLÉGIO SANTO INÁCIO</b><br>Botafogo — Zona Sul/Botafogo<br>Inscritos EPGE (24-26): <b>128</b></div>`)[0];
+                popup_a7df7c8b2bc926c10dedf9049dee18b4.setContent(html_eca3aada048d429903c1657264e1fe13);
+            
+        
+
+        circle_marker_c00abacf78e1fea2d948d5ba1957f5b2.bindPopup(popup_a7df7c8b2bc926c10dedf9049dee18b4)
+        ;
+
+        
+    
+    
+            circle_marker_c00abacf78e1fea2d948d5ba1957f5b2.bindTooltip(
+                `<div>
+                     COLÉGIO SANTO INÁCIO (128)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_3474faf01e903d600536d58905ef22e6 = L.circleMarker(
+                [-23.0017891, -43.3833114],
+                {"bubblingMouseEvents": true, "color": "#2e7d32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2e7d32", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 24.889949736655662, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_b5c6e0679f399c3f0aa8dd96d6a9cb52 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_37f8f1fbd4d82f9b50ffdbe1fd0b6995 = $(`<div id="html_37f8f1fbd4d82f9b50ffdbe1fd0b6995" style="width: 100.0%; height: 100.0%;"><b>COLÉGIO SANTO AGOSTINHO</b><br>Barra da Tijuca — Barra/Região<br>Inscritos EPGE (24-26): <b>151</b></div>`)[0];
+                popup_b5c6e0679f399c3f0aa8dd96d6a9cb52.setContent(html_37f8f1fbd4d82f9b50ffdbe1fd0b6995);
+            
+        
+
+        circle_marker_3474faf01e903d600536d58905ef22e6.bindPopup(popup_b5c6e0679f399c3f0aa8dd96d6a9cb52)
+        ;
+
+        
+    
+    
+            circle_marker_3474faf01e903d600536d58905ef22e6.bindTooltip(
+                `<div>
+                     COLÉGIO SANTO AGOSTINHO (151)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            var circle_marker_38bd408a64bb532bc264eb829e23dcc9 = L.circleMarker(
+                [-23.0043968, -43.3663492],
+                {"bubblingMouseEvents": true, "color": "#2e7d32", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#2e7d32", "fillOpacity": 0.6, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 24.889949736655662, "stroke": true, "weight": 1.4}
+            ).addTo(feature_group_432b1e2d632350ee9e3520aa67756df7);
+        
+    
+        var popup_9a1edf34e6e435d36283abca807455c2 = L.popup({
+  "maxWidth": 260,
+});
+
+        
+            
+                var html_ce779a3f46ef1163255b17d186a5e2ae = $(`<div id="html_ce779a3f46ef1163255b17d186a5e2ae" style="width: 100.0%; height: 100.0%;"><b>COLÉGIO PH</b><br>Barra da Tijuca — Barra/Região<br>Inscritos EPGE (24-26): <b>151</b></div>`)[0];
+                popup_9a1edf34e6e435d36283abca807455c2.setContent(html_ce779a3f46ef1163255b17d186a5e2ae);
+            
+        
+
+        circle_marker_38bd408a64bb532bc264eb829e23dcc9.bindPopup(popup_9a1edf34e6e435d36283abca807455c2)
+        ;
+
+        
+    
+    
+            circle_marker_38bd408a64bb532bc264eb829e23dcc9.bindTooltip(
+                `<div>
+                     COLÉGIO PH (151)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+            feature_group_432b1e2d632350ee9e3520aa67756df7.addTo(map_15d97dd1208c3309435503c9789b925a);
+        
+    
+            var feature_group_4510e498db3942bb18df07e51731a74e = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_3ab60f6cef3fb1fb619254d925fc8a63 = L.marker(
+                [-22.9410325, -43.1799907],
+                {
+}
+            ).addTo(feature_group_4510e498db3942bb18df07e51731a74e);
+        
+    
+            var icon_f6668809276416a69d305d2f60a5171e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "darkblue",
+  "iconColor": "white",
+  "icon": "star",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_77bf6b4fe521f68ed17e21eea171da6c = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_660b6428cd9df1d39d7e291bcf8698c3 = $(`<div id="html_660b6428cd9df1d39d7e291bcf8698c3" style="width: 100.0%; height: 100.0%;"><b>EPGE FGV — Botafogo (atual)</b><br>Botafogo</div>`)[0];
+                popup_77bf6b4fe521f68ed17e21eea171da6c.setContent(html_660b6428cd9df1d39d7e291bcf8698c3);
+            
+        
+
+        marker_3ab60f6cef3fb1fb619254d925fc8a63.bindPopup(popup_77bf6b4fe521f68ed17e21eea171da6c)
+        ;
+
+        
+    
+    
+            marker_3ab60f6cef3fb1fb619254d925fc8a63.bindTooltip(
+                `<div>
+                     EPGE FGV — Botafogo (atual)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_3ab60f6cef3fb1fb619254d925fc8a63.setIcon(icon_f6668809276416a69d305d2f60a5171e);
+            
+    
+            var marker_7831ac53931559b98c1ba8dc0eb7d1a5 = L.marker(
+                [-23.0057898, -43.313666],
+                {
+}
+            ).addTo(feature_group_4510e498db3942bb18df07e51731a74e);
+        
+    
+            var icon_3fa8b71d69d29dc8a5801ace0fd9e073 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "white",
+  "icon": "university",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_daa8dbba1832bf95004b2801f9a35780 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_2b3d9aaa173d7b37d7004a93479498fe = $(`<div id="html_2b3d9aaa173d7b37d7004a93479498fe" style="width: 100.0%; height: 100.0%;"><b>IBMEC — Barra (Av. Armando Lombardi)</b><br>Barra da Tijuca</div>`)[0];
+                popup_daa8dbba1832bf95004b2801f9a35780.setContent(html_2b3d9aaa173d7b37d7004a93479498fe);
+            
+        
+
+        marker_7831ac53931559b98c1ba8dc0eb7d1a5.bindPopup(popup_daa8dbba1832bf95004b2801f9a35780)
+        ;
+
+        
+    
+    
+            marker_7831ac53931559b98c1ba8dc0eb7d1a5.bindTooltip(
+                `<div>
+                     IBMEC — Barra (Av. Armando Lombardi)
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_7831ac53931559b98c1ba8dc0eb7d1a5.setIcon(icon_3fa8b71d69d29dc8a5801ace0fd9e073);
+            
+    
+            var marker_6a5b436810170bb5869ae9f92f9e38e7 = L.marker(
+                [-22.9125015, -43.1742935],
+                {
+}
+            ).addTo(feature_group_4510e498db3942bb18df07e51731a74e);
+        
+    
+            var icon_41718c93a7f7d87a2a6d4e90a850c92e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "orange",
+  "iconColor": "white",
+  "icon": "university",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_8f4d9c2d186e9b383476525e1f880e2d = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_e6c1102f046a606179a4d1e69db443c1 = $(`<div id="html_e6c1102f046a606179a4d1e69db443c1" style="width: 100.0%; height: 100.0%;"><b>IBMEC — Centro</b><br>Centro</div>`)[0];
+                popup_8f4d9c2d186e9b383476525e1f880e2d.setContent(html_e6c1102f046a606179a4d1e69db443c1);
+            
+        
+
+        marker_6a5b436810170bb5869ae9f92f9e38e7.bindPopup(popup_8f4d9c2d186e9b383476525e1f880e2d)
+        ;
+
+        
+    
+    
+            marker_6a5b436810170bb5869ae9f92f9e38e7.bindTooltip(
+                `<div>
+                     IBMEC — Centro
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_6a5b436810170bb5869ae9f92f9e38e7.setIcon(icon_41718c93a7f7d87a2a6d4e90a850c92e);
+            
+    
+            var marker_8c700c5975f62879ad416af05d111e6c = L.marker(
+                [-22.9796815, -43.2331377],
+                {
+}
+            ).addTo(feature_group_4510e498db3942bb18df07e51731a74e);
+        
+    
+            var icon_c5c63c6cf6ef7c8a181394c6094d2fe8 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "purple",
+  "iconColor": "white",
+  "icon": "university",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c6a060edfdb51cd4ca510247eba52e34 = L.popup({
+  "maxWidth": 240,
+});
+
+        
+            
+                var html_0cc906db848d961caab65b23d12e21a0 = $(`<div id="html_0cc906db848d961caab65b23d12e21a0" style="width: 100.0%; height: 100.0%;"><b>PUC-Rio — Gávea</b><br>Gávea</div>`)[0];
+                popup_c6a060edfdb51cd4ca510247eba52e34.setContent(html_0cc906db848d961caab65b23d12e21a0);
+            
+        
+
+        marker_8c700c5975f62879ad416af05d111e6c.bindPopup(popup_c6a060edfdb51cd4ca510247eba52e34)
+        ;
+
+        
+    
+    
+            marker_8c700c5975f62879ad416af05d111e6c.bindTooltip(
+                `<div>
+                     PUC-Rio — Gávea
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_8c700c5975f62879ad416af05d111e6c.setIcon(icon_c5c63c6cf6ef7c8a181394c6094d2fe8);
+            
+    
+            feature_group_4510e498db3942bb18df07e51731a74e.addTo(map_15d97dd1208c3309435503c9789b925a);
+        
+    
+            var layer_control_708c2646f441fc96bddb6e2ed10f39ea_layers = {
+                base_layers : {
+                    "cartodbpositron" : tile_layer_0ddd36993e8bd7d2c07866f807a0ac4b,
+                },
+                overlays :  {
+                    "Densidade resid\u00eancia (alunos EPGE da Grande Barra)" : feature_group_e078d0170b997afdfe1576c8ce65a0c1,
+                    "Escolas de EM (tam.=vol. EPGE, cor=regi\u00e3o)" : feature_group_432b1e2d632350ee9e3520aa67756df7,
+                    "Pr\u00e9dios: EPGE e concorrentes" : feature_group_4510e498db3942bb18df07e51731a74e,
+                },
+            };
+            let layer_control_708c2646f441fc96bddb6e2ed10f39ea = L.control.layers(
+                layer_control_708c2646f441fc96bddb6e2ed10f39ea_layers.base_layers,
+                layer_control_708c2646f441fc96bddb6e2ed10f39ea_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": false,
+  "autoZIndex": true,
+}
+            ).addTo(map_15d97dd1208c3309435503c9789b925a);
+
+        
+</script>
+</html>

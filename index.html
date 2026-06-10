@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Estudo de Viabilidade EPGE Barra — Mapas Interativos | GIM-DICOM FGV</title>
+<style>
+  :root { --azul:#1F3864; --azul2:#2E75B6; --cinza:#595959; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family:'Segoe UI',Arial,sans-serif; color:var(--azul); background:#f4f6fa; }
+  header { background:var(--azul); color:#fff; padding:32px 24px; }
+  header h1 { margin:0 0 6px; font-size:22px; }
+  header p { margin:0; color:#cdd6e6; font-size:14px; }
+  main { max-width:880px; margin:32px auto; padding:0 20px; }
+  .card { background:#fff; border:1px solid #e2e7f0; border-radius:10px; padding:22px 24px; margin-bottom:18px; box-shadow:0 1px 3px rgba(0,0,0,.05); }
+  .card h2 { margin:0 0 8px; font-size:18px; color:var(--azul2); }
+  .card p { margin:0 0 14px; color:var(--cinza); font-size:14px; line-height:1.5; }
+  .btn { display:inline-block; background:var(--azul2); color:#fff; text-decoration:none; padding:10px 18px; border-radius:6px; font-size:14px; font-weight:600; }
+  .btn:hover { background:var(--azul); }
+  footer { max-width:880px; margin:0 auto 40px; padding:0 20px; color:var(--cinza); font-size:12px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Estudo de Viabilidade — Unidade EPGE Barra da Tijuca</h1>
+  <p>Mapas interativos · GIM-DICOM — Inteligência de Mercado e Dados · FGV</p>
+</header>
+<main>
+  <div class="card">
+    <h2>Localização ótima da demanda</h2>
+    <p>Densidade de residência (CEP, nível rua) dos candidatos da Grande Barra, centróide de demanda, raio de concentração e referência da unidade EBAPE Barra. Base do slide "Se abrir, onde?".</p>
+    <a class="btn" href="localizacao.html">Abrir mapa de localização &rarr;</a>
+  </div>
+  <div class="card">
+    <h2>Mapa competitivo e escolas-âncora</h2>
+    <p>Escolas de Ensino Médio (cor por região, tamanho por volume EPGE), prédios concorrentes (IBMEC Barra, IBMEC Centro, PUC-Rio Gávea), EPGE Botafogo e heatmap de residência da Grande Barra.</p>
+    <a class="btn" href="competitivo.html">Abrir mapa competitivo &rarr;</a>
+  </div>
+</main>
+<footer>
+  Uso interno · Dados: base de vestibular (Fabric/TOTVS), INEP Censo, geocoding Nominatim/OSM e AwesomeAPI (CEP). Junho/2026.
+</footer>
+</body>
+</html>
